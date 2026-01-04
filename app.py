@@ -4,15 +4,20 @@ import mysql.connector
 app = Flask(__name__)
 
 # Database connection
-db = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="root123",
-    database="grocery_db",
-    auth_plugin="mysql_native_password"
-)
+db = None
+cursor = None
 
-cursor = db.cursor()
+try:
+    db = mysql.connector.connect(
+        host="127.0.0.1",
+        user="root",
+        password="root123",
+        database="grocery_db",
+        auth_plugin="mysql_native_password"
+    )
+    cursor = db.cursor()
+except:
+    print("Database not connected (cloud environment)")
 
 @app.route("/", methods=["GET", "POST"])
 def login():
@@ -65,4 +70,4 @@ def view_products():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
